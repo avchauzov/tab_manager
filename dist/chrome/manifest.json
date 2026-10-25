@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Manager",
+  "version": "2.0.0",
+  "permissions": ["tabs", "tabGroups", "storage", "alarms"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_icon": "icons/icon128.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "128": "icons/icon128.png"
+  }
+}

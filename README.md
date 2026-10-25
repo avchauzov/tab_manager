@@ -56,11 +56,12 @@ npm run lint:firefox
 
 ## Install in Chrome
 
-1. Run `npm run build:chrome`.
-2. Open `chrome://extensions`.
-3. Turn on Developer mode.
-4. Choose **Load unpacked**.
-5. Select the `dist/chrome` directory.
+The Chrome package is already in `dist/chrome`. Rebuild with `npm run build:chrome` only after you change the source.
+
+1. Open `chrome://extensions`.
+2. Turn on Developer mode.
+3. Choose **Load unpacked**.
+4. Select the `dist/chrome` directory.
 
 For Chrome development, loading the repository root is equivalent: the root manifest is the Chrome manifest.
 
@@ -72,11 +73,12 @@ Firefox Release and Firefox Beta only keep extensions that Mozilla has signed. T
 
 A temporary unsigned install works in every desktop Firefox channel:
 
-1. Run `npm run build:firefox`.
-2. Open `about:debugging`.
-3. Choose **This Firefox**.
-4. Choose **Load Temporary Add-on…**.
-5. Select `dist/firefox/manifest.json`.
+The Firefox package is already in `dist/firefox`. Rebuild with `npm run build:firefox` only after you change the source.
+
+1. Open `about:debugging`.
+2. Choose **This Firefox**.
+3. Choose **Load Temporary Add-on…**.
+4. Select `dist/firefox/manifest.json`.
 
 Firefox removes temporary add-ons when the browser exits. Load the same folder again to install it for another session. The manifest ID is `tab-manager@tab-manager.invalid`, so storage from the previous temporary install is still available after you load it again.
 
