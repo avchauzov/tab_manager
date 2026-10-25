@@ -6,6 +6,14 @@
   "scripts": {
     "test": "node --experimental-test-module-mocks --test",
     "check": "node scripts/check.mjs",
-    "smoke": "node scripts/smoke-static.mjs"
+    "smoke": "node scripts/smoke-static.mjs",
+    "build": "node scripts/build.mjs",
+    "build:chrome": "node scripts/build.mjs chrome",
+    "build:firefox": "node scripts/build.mjs firefox",
+    "lint:firefox": "node scripts/build.mjs firefox && web-ext lint --source-dir dist/firefox",
+    "smoke:browsers": "node scripts/smoke-browsers.mjs"
+  },
+  "devDependencies": {
+    "web-ext": "^10.8.0"
   }
 }

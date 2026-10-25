@@ -1,18 +1,18 @@
-import test from 'node:test';
 import assert from 'node:assert/strict';
+import test from 'node:test';
 
 import {
-  accessKey,
-  effectiveLastAccess,
-  getLastAccess,
-  readAccessEntry,
-  withLastObservedAt,
+    accessKey,
+    effectiveLastAccess,
+    getLastAccess,
+    readAccessEntry,
+    withLastObservedAt,
 } from '../lib/access.js';
-import { pickWinner, pickRealtimeWinner } from '../lib/dedup.js';
+import { pickRealtimeWinner, pickWinner } from '../lib/dedup.js';
 import { colorForHostname, isStaleGroup } from '../lib/grouping.js';
-import { isStaleCandidate, shouldDiscardTab } from '../lib/stale.js';
 import { formatSummary } from '../lib/log.js';
-import { getHostname, isSupportedUrl, normalizeUrl, formatLogUrl } from '../lib/normalize.js';
+import { formatLogUrl, getHostname, isSupportedUrl, normalizeUrl } from '../lib/normalize.js';
+import { isStaleCandidate, shouldDiscardTab } from '../lib/stale.js';
 
 const baseUrl = 'https://shop.com/item/42';
 
@@ -60,6 +60,8 @@ test('normalizeUrl strips tracking noise and preserves meaningful query params',
 test('normalizeUrl rejects unsupported or malformed urls', () => {
   assert.equal(isSupportedUrl('chrome://extensions'), false);
   assert.equal(normalizeUrl('chrome://extensions'), null);
+  assert.equal(isSupportedUrl('moz-extension://ext-id/options.html'), false);
+  assert.equal(normalizeUrl('moz-extension://ext-id/options.html'), null);
   assert.equal(normalizeUrl('not a url'), null);
 });
 
@@ -70,6 +72,7 @@ test('getHostname lowercases supported hostnames', () => {
 test('formatLogUrl omits query and hash from action log messages', () => {
   assert.equal(formatLogUrl('https://x.com/p?utm_token=secret#hash'), 'x.com/p');
   assert.equal(formatLogUrl('chrome://extensions'), '(unsupported)');
+  assert.equal(formatLogUrl('moz-extension://ext-id/options.html'), '(unsupported)');
 });
 
 test('formatSummary reports empty and pluralized changes', () => {

@@ -5,7 +5,7 @@ import { join } from 'node:path';
 function walkJsFiles(dir) {
   const files = [];
   for (const entry of readdirSync(dir)) {
-    if (entry === 'node_modules') continue;
+    if (entry === 'node_modules' || entry === 'dist' || entry === '.git') continue;
     const path = join(dir, entry);
     if (statSync(path).isDirectory()) {
       files.push(...walkJsFiles(path));

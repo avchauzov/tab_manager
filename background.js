@@ -1,26 +1,26 @@
-import { getSettings } from './lib/settings.js';
 import { recordLastObservedAt, touchLastSeenAt } from './lib/access.js';
-import { isSupportedUrl } from './lib/normalize.js';
 import {
-  closeDuplicatesAcrossAllWindows,
-  closeDuplicatesInWindow,
-  pickRealtimeWinner,
+    closeDuplicatesAcrossAllWindows,
+    closeDuplicatesInWindow,
+    pickRealtimeWinner,
 } from './lib/dedup.js';
 import {
-  groupTabsByHostname,
-  cleanupSingleTabHostnameGroups,
-  isInStaleGroup,
+    cleanupSingleTabHostnameGroups,
+    groupTabsByHostname,
+    isInStaleGroup,
 } from './lib/grouping.js';
-import { checkStaleTabs } from './lib/stale.js';
-import { layoutWindow } from './lib/sort.js';
+import { isSupportedUrl } from './lib/normalize.js';
 import {
-  safeTabsGet,
-  safeTabsUngroup,
-  safeAlarmsClear,
-  safeAlarmsCreate,
-  safeAlarmsGet,
-  safeWindowsGetAll,
+    safeAlarmsClear,
+    safeAlarmsCreate,
+    safeAlarmsGet,
+    safeTabsGet,
+    safeTabsUngroup,
+    safeWindowsGetAll,
 } from './lib/safe.js';
+import { getSettings } from './lib/settings.js';
+import { layoutWindow } from './lib/sort.js';
+import { checkStaleTabs } from './lib/stale.js';
 
 const ALARM_NAME = 'tabManagerTick';
 const debounceTimers = new Map();
@@ -167,6 +167,9 @@ async function handleUpdated(tabId, changeInfo, tab) {
   }
 }
 
+// Listeners are registered synchronously while the background entry evaluates.
+// Chrome service workers and Firefox event pages only wake for those listeners
+// after suspension, and in-memory state is rebuilt from storage or the browser.
 chrome.windows.onFocusChanged.addListener((windowId) => {
   if (windowId !== chrome.windows.WINDOW_ID_NONE) {
     lastFocusedWindowId = windowId;
